@@ -36,6 +36,7 @@ public class BaseScreen {
 
         driver.perform(Collections.singletonList(tap));
     }
+
     public void scrollToTop() {
         int startX = 520;
         int startY = 1662;
@@ -57,6 +58,4 @@ public class BaseScreen {
             driver.perform(Collections.singletonList(swipe));
         }
     }
-
-
 }
