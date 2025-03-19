@@ -18,8 +18,8 @@ public class JoomHomeScreen extends BaseScreen {
     }
 
     public JoomHomeScreen closeAdvertisement() {
-        int xCoordinate = 999;
-        int yCoordinate = 192;
+        int xCoordinate = 989;
+        int yCoordinate = 186;
 
         tapByCoordinate(xCoordinate,yCoordinate);
         log.info("Advertisement");
@@ -46,15 +46,33 @@ public class JoomHomeScreen extends BaseScreen {
         return new JoomHomeScreen(driver);
     }
 
+
+    @AndroidFindBy(xpath = JoomHomePageLocators.SPIN_WHEEL_BTN_XPATH)
+    private WebElement spinWheelButton;
+    public JoomHomeScreen clickSpinTheWheel() {
+        waitUntilElementIsVisible(spinWheelButton);
+        spinWheelButton.click();
+        log.info("Spin button: clicked");
+        return new JoomHomeScreen(driver);
+    }
+
+    @AndroidFindBy(xpath = JoomHomePageLocators.BACK_HOME_SCREEN_BTN_XPATH)
+    private WebElement backHomeButton;
+    public JoomHomeScreen backHomeButton() {
+        waitUntilElementIsVisible(backHomeButton);
+        backHomeButton.click();
+        log.info("Back home button: clicked");
+        return new JoomHomeScreen(driver);
+    }
+
     @AndroidFindBy(xpath = JoomHomePageLocators.PROFILE_BTN_XPATH)
     private WebElement profileButton;
 
-    public ProfileScreen clickProfileButton(){
+    public ProfileScreen clickProfileButton() {
         waitUntilElementIsVisible(profileButton);
         profileButton.click();
         log.info("profile button: clicked");
         return new ProfileScreen(driver);
     }
-
 }
 

@@ -28,6 +28,14 @@ public class Initializer {
         }
     }
 
+    public static AppiumDriver getDriver() {
+        if (driver == null) {
+            initDriver();
+        }
+        return driver;
+    }
+
+
     private static void initDriver() {
         try {
             URI appiumServerURI = new URI(config.getProperty("appium.server.url"));
