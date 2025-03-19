@@ -3,26 +3,22 @@ package mobile.screens;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
-import java.time.Duration;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import mobile.locators.JoomHomePageLocators;
+import mobile.utils.WaitUtils;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 @Slf4j
 @Setter
 public class JoomHomeScreen extends BaseScreen {
+    private WaitUtils waitUtils;
+
     public JoomHomeScreen(AppiumDriver driver) {
         super(driver);
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
-    }
-
-    public void waitUntilClickable(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        wait.until(ExpectedConditions.elementToBeClickable(element));
+        this.waitUtils = new WaitUtils(driver);
     }
 
     public JoomHomeScreen closeAdvertisement() {
@@ -38,7 +34,7 @@ public class JoomHomeScreen extends BaseScreen {
     private WebElement enableNotificationsButton;
 
     public JoomHomeScreen clickEnableButton() {
-        waitUntilClickable(enableNotificationsButton);
+        waitUtils.waitUntilClickable(enableNotificationsButton);
         enableNotificationsButton.click();
         log.info("Enable button: clicked");
         return new JoomHomeScreen(driver);
@@ -47,20 +43,18 @@ public class JoomHomeScreen extends BaseScreen {
     @AndroidFindBy(xpath = JoomHomePageLocators.ALLOW_NOTIFICATIONS_BTN_XPATH)
     private WebElement allowNotificationsButton;
 
-
     public JoomHomeScreen clickAllowButton() {
-        waitUntilClickable(allowNotificationsButton);
+        waitUtils.waitUntilClickable(allowNotificationsButton);
         allowNotificationsButton.click();
         log.info("Allow button: clicked");
         return new JoomHomeScreen(driver);
     }
 
-
     @AndroidFindBy(xpath = JoomHomePageLocators.SPIN_WHEEL_BTN_XPATH)
     private WebElement spinWheelButton;
 
     public JoomHomeScreen clickSpinTheWheel() {
-        waitUntilClickable(spinWheelButton);
+        waitUtils.waitUntilClickable(spinWheelButton);
         spinWheelButton.click();
         log.info("Spin button: clicked");
         return new JoomHomeScreen(driver);
@@ -70,21 +64,19 @@ public class JoomHomeScreen extends BaseScreen {
     private WebElement backHomeButton;
 
     public JoomHomeScreen backHomeButton() {
-        waitUntilClickable(backHomeButton);
+        waitUtils.waitUntilClickable(backHomeButton);
         backHomeButton.click();
         log.info("Back home button: clicked");
         return new JoomHomeScreen(driver);
     }
 
-
     @AndroidFindBy(xpath = JoomHomePageLocators.PROFILE_BTN_XPATH)
     private WebElement profileButton;
 
     public ProfileScreen clickProfileButton() {
-        waitUntilClickable(profileButton);
+        waitUtils.waitUntilClickable(profileButton);
         profileButton.click();
         log.info("profile button: clicked");
         return new ProfileScreen(driver);
     }
 }
-
