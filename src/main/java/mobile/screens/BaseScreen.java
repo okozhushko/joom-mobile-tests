@@ -4,26 +4,21 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import java.time.Duration;
 import java.util.Collections;
+import mobile.utils.WaitUtils;
 import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BaseScreen {
 
     protected AppiumDriver driver;
+    protected WaitUtils waitUtils;
 
     public BaseScreen(AppiumDriver driver) {
         this.driver = driver;
+        this.waitUtils = new WaitUtils(driver);
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
-    }
-
-    public void waitUntilElementIsVisible(WebElement element) {
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-        wait.until(ExpectedConditions.visibilityOf(element));
     }
 
     public void tapByCoordinate(int x, int y) {
