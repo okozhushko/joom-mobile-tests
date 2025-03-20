@@ -12,11 +12,10 @@ public class WaitUtils {
 
     public WaitUtils(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(3));
     }
 
-    public void waitUntilClickable(WebElement element) {
-        wait.until(ExpectedConditions.elementToBeClickable(element));
+    public void waitUntilClickable(WebElement element) { wait.until(ExpectedConditions.visibilityOf(element));
     }
 
     public void waitUntilVisible(WebElement element) {

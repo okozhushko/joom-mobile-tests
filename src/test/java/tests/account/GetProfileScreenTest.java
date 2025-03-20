@@ -5,7 +5,6 @@ import mobile.screens.JoomHomeScreen;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import tests.BaseTest;
-import static mobile.enums.LoginTitle.LOGIN_TITLE;
 
 public class GetProfileScreenTest extends BaseTest {
     @Test
@@ -20,8 +19,6 @@ public class GetProfileScreenTest extends BaseTest {
                 .clickSpinTheWheel()
                 .backHomeButton()
                 .clickProfileButton()
-                .verifyLoginScreenOpened(LOGIN_TITLE);
-
-
+                .verifyLoginScreenOpened("Log in");
     }
 }

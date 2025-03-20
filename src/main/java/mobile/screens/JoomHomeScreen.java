@@ -26,7 +26,7 @@ public class JoomHomeScreen extends BaseScreen {
         int yCoordinate = 186;
 
         tapByCoordinate(xCoordinate, yCoordinate);
-        log.info("Advertisement");
+        log.info("Advertisement closed");
         return new JoomHomeScreen(driver);
     }
 

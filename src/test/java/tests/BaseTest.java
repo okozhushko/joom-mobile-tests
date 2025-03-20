@@ -19,7 +19,7 @@ public class BaseTest {
         log.info("Driver: Initializing before test\n");
         driver = Initializer.getDriver();
         Helper.setDriver(driver);
-        Thread.sleep(2000);
+        Thread.sleep(4000);
 
         log.info("Starting test\n");
     }

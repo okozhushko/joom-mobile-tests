@@ -4,8 +4,6 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import java.time.Duration;
 import java.util.Collections;
-import mobile.utils.WaitUtils;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.PageFactory;
@@ -13,11 +11,9 @@ import org.openqa.selenium.support.PageFactory;
 public class BaseScreen {
 
     protected AppiumDriver driver;
-    protected WaitUtils waitUtils;
 
     public BaseScreen(AppiumDriver driver) {
         this.driver = driver;
-        this.waitUtils = new WaitUtils(driver);
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
     }
 
@@ -35,8 +31,6 @@ public class BaseScreen {
     public void scrollToTop() {
         int startX = 520;
         int startY = 1662;
-
-        Dimension size = driver.manage().window().getSize();
         int endY = 1;
 
         PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
@@ -44,7 +38,6 @@ public class BaseScreen {
 
         for (int i = 0; i < 4; i++) {
             swipe = new Sequence(finger, 1);
-
             swipe.addAction(finger.createPointerMove(Duration.ofMillis(0), PointerInput.Origin.viewport(), startX, startY));
             swipe.addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()));
             swipe.addAction(finger.createPointerMove(Duration.ofMillis(500), PointerInput.Origin.viewport(), startX, endY));
