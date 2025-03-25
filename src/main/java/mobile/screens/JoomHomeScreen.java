@@ -30,7 +30,7 @@ public class JoomHomeScreen extends BaseScreen {
         return new JoomHomeScreen(driver);
     }
 
-    @AndroidFindBy(xpath = JoomHomePageLocators.ENABLE_NOTIFICATIONS_BTN_XPATH)
+    @AndroidFindBy(xpath = JoomHomePageLocators.ENABLE_NOTIFICATIONS_BTN)
     private WebElement enableNotificationsButton;
 
     public JoomHomeScreen clickEnableButton() {
@@ -40,7 +40,7 @@ public class JoomHomeScreen extends BaseScreen {
         return new JoomHomeScreen(driver);
     }
 
-    @AndroidFindBy(xpath = JoomHomePageLocators.ALLOW_NOTIFICATIONS_BTN_XPATH)
+    @AndroidFindBy(xpath = JoomHomePageLocators.ALLOW_NOTIFICATIONS_BTN)
     private WebElement allowNotificationsButton;
 
     public JoomHomeScreen clickAllowButton() {
@@ -50,7 +50,7 @@ public class JoomHomeScreen extends BaseScreen {
         return new JoomHomeScreen(driver);
     }
 
-    @AndroidFindBy(xpath = JoomHomePageLocators.SPIN_WHEEL_BTN_XPATH)
+    @AndroidFindBy(xpath = JoomHomePageLocators.SPIN_WHEEL_BTN)
     private WebElement spinWheelButton;
 
     public JoomHomeScreen clickSpinTheWheel() {
@@ -60,7 +60,7 @@ public class JoomHomeScreen extends BaseScreen {
         return new JoomHomeScreen(driver);
     }
 
-    @AndroidFindBy(xpath = JoomHomePageLocators.BACK_HOME_SCREEN_BTN_XPATH)
+    @AndroidFindBy(xpath = JoomHomePageLocators.BACK_HOME_SCREEN_BTN)
     private WebElement backHomeButton;
 
     public JoomHomeScreen backHomeButton() {
@@ -70,7 +70,7 @@ public class JoomHomeScreen extends BaseScreen {
         return new JoomHomeScreen(driver);
     }
 
-    @AndroidFindBy(xpath = JoomHomePageLocators.PROFILE_BTN_XPATH)
+    @AndroidFindBy(xpath = JoomHomePageLocators.PROFILE_BTN)
     private WebElement profileButton;
 
     public ProfileScreen clickProfileButton() {
