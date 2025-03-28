@@ -13,25 +13,17 @@ public class AddUserData {
     private  String userPassword;
     private  String userPasswordConfirmation;
 
-    public String getUserFirstName() {
-        return userFirstName;
-    }
-
+    public String getUserFirstName() {return userFirstName; }
     public  String getUserLastName() {
         return userLastName;
     }
-
     public  String getUserEmail() {
         return userEmail;
     }
-
     public  String getUserPassword() {
         return userPassword;
     }
-
     public  String getUserPasswordConfirmation() {
         return userPasswordConfirmation;
     }
-
-
 }

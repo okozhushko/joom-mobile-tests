@@ -23,6 +23,7 @@ public class SignUpPopUpScreen extends BaseScreen {
     public SignUpPopUpScreen(AppiumDriver driver) {
         super(driver);
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+        this.waitUtils = new WaitUtils(driver);
     }
 
     @AndroidFindBy(xpath = SignUpPopupLocators.SIGNUP_BTN)

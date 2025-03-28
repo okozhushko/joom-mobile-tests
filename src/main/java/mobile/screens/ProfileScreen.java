@@ -4,25 +4,26 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
 import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import java.time.Duration;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import mobile.locators.LoginPageLocators;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.slf4j.Logger;
 import org.openqa.selenium.support.PageFactory;
-import org.slf4j.LoggerFactory;
 import mobile.utils.WaitUtils;
 
-
+@Slf4j
+@Setter
 public class ProfileScreen extends BaseScreen {
-    private static final Logger log = (Logger) LoggerFactory.getLogger(ProfileScreen.class);
     private WaitUtils waitUtils;
 
 
     public ProfileScreen(AppiumDriver driver) {
         super(driver);
         PageFactory.initElements(new AppiumFieldDecorator(driver), this);
+        this.waitUtils = new WaitUtils(driver);
     }
 
     public void verifyLoginScreenOpened(String loginTitle) {
@@ -37,7 +38,7 @@ public class ProfileScreen extends BaseScreen {
     private WebElement registrationButton;
 
     public ProfileScreen openRegistrationForm() {
-        waitUtils.waitUntilInvisible(registrationButton); //TODO fix wait
+        waitUtils.waitUntilClickable(registrationButton);
         registrationButton.click();
         log.info("Login profile: Opened");
         return this;
