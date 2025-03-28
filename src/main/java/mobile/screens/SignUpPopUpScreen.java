@@ -48,18 +48,18 @@ public class SignUpPopUpScreen extends BaseScreen {
     private WebElement lastNameFld;
 
     public void setLastName(String lastName) {
-        waitUtils.waitUntilClickable(firstNameFld);
-        firstNameFld.click();
-        firstNameFld.sendKeys(lastName);
+        waitUtils.waitUntilClickable(lastNameFld);
+        lastNameFld.click();
+        lastNameFld.sendKeys(lastName);
     }
 
     @AndroidFindBy(xpath = SignUpPopupLocators.SIGNUP_EMAIL_FIELD)
     private WebElement emailFld;
 
     public void setEmailFld(String emailName) {
-        waitUtils.waitUntilClickable(firstNameFld);
-        firstNameFld.click();
-        firstNameFld.sendKeys(emailName);
+        waitUtils.waitUntilClickable(emailFld);
+        emailFld.click();
+        emailFld.sendKeys(emailName);
     }
 
     @AndroidFindBy(xpath = SignUpPopupLocators.SIGNUP_PASS_FIELD)
@@ -67,8 +67,8 @@ public class SignUpPopUpScreen extends BaseScreen {
 
     public void setPasswordFld(String password) {
         waitUtils.waitUntilClickable(passwordFld);
-        firstNameFld.click();
-        firstNameFld.sendKeys(password);
+        passwordFld.click();
+        passwordFld.sendKeys(password);
     }
 
     @AndroidFindBy(xpath = SignUpPopupLocators.SIGNUP_PASS_CONFIRM_FIELD)
@@ -76,8 +76,8 @@ public class SignUpPopUpScreen extends BaseScreen {
 
     public void setConfirmPasswordFld(String password) {
         waitUtils.waitUntilClickable(confirmPasswordFld);
-        firstNameFld.click();
-        firstNameFld.sendKeys(password);
+        confirmPasswordFld.click();
+        confirmPasswordFld.sendKeys(password);
     }
 
     @AndroidFindBy(xpath = SignUpPopupLocators.FINISH_SIGN_UP_BTN)
