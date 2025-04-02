@@ -108,8 +108,8 @@ public class SignUpPopUpScreen extends BaseScreen {
         clickConfirmSignUpBtn();
         log.info("Registration: User '{}' successful", addUserData.getUserEmail());
 
-        clickSignInBtn();
-        Thread.sleep(1000);
+//        clickSignInBtn();
+//        Thread.sleep(1000);
         return this;
     }
 
