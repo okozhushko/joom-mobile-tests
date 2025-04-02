@@ -30,9 +30,8 @@ public class SignUpPopUpScreen extends BaseScreen {
     private WebElement signUpBtn;
 
     public void signUp() {
-        waitUtils.waitUntilClickable(confirmSignUpBtn);
-        confirmSignUpBtn.click();
-
+        waitUtils.waitUntilClickable(signInButton);
+        signInButton.click();
     }
 
     @AndroidFindBy(xpath = SignUpPopupLocators.SIGNUP_FIRST_NAME_FIELD)
@@ -80,31 +79,41 @@ public class SignUpPopUpScreen extends BaseScreen {
         confirmPasswordFld.sendKeys(password);
     }
 
-    @AndroidFindBy(xpath = SignUpPopupLocators.FINISH_SIGN_UP_BTN)
-    private WebElement confirmSignUpBtn;
+    @AndroidFindBy(xpath = SignUpPopupLocators.SIGN_IN_BTN)
+    private WebElement signInButton;
 
-    public void clickSignUpBtn() {
-        waitUtils.waitUntilClickable(confirmSignUpBtn);
-        confirmSignUpBtn.click();
+    public void clickSignInBtn() {
+        waitUtils.waitUntilClickable(signInButton);
+        signInButton.click();
+        log.info("Sign in button: clicked");
+    }
+
+    @AndroidFindBy(xpath = SignUpPopupLocators.SIGNUP_BTN)
+    private WebElement signUpButton;
+
+    public void clickConfirmSignUpBtn() {
+        waitUtils.waitUntilClickable(signUpButton);
+        signUpButton.click();
         log.info("Sign up button: clicked");
     }
 
     @SneakyThrows
-    public SignUpPopUpScreen registrationNewUser(AddUserData addUserData){
+    public SignUpPopUpScreen registrationNewUser(AddUserData addUserData) {
         signUp();
         setFirstName(addUserData.getUserFirstName());
         setLastName(addUserData.getUserLastName());
         setEmailFld(addUserData.getUserEmail());
         setPasswordFld(addUserData.getUserPassword());
         setConfirmPasswordFld(addUserData.getUserPasswordConfirmation());
+        clickConfirmSignUpBtn();
         log.info("Registration: User '{}' successful", addUserData.getUserEmail());
 
-        clickSignUpBtn();
+        clickSignInBtn();
         Thread.sleep(1000);
         return this;
     }
 
-    public void verifyUserRegistered(AccountTitle accountTitle){
+    public void verifyUserRegistered(AccountTitle accountTitle) {
         assertThat(Helper.isTextOnScreen(accountTitle.getValue()))
                 .as("Check if text '%s' is visible on the screen", accountTitle.getValue())
                 .isTrue();
