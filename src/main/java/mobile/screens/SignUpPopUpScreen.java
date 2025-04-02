@@ -107,9 +107,6 @@ public class SignUpPopUpScreen extends BaseScreen {
         setConfirmPasswordFld(addUserData.getUserPasswordConfirmation());
         clickConfirmSignUpBtn();
         log.info("Registration: User '{}' successful", addUserData.getUserEmail());
-
-//        clickSignInBtn();
-//        Thread.sleep(1000);
         return this;
     }
 
