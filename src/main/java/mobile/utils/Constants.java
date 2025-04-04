@@ -7,5 +7,4 @@ public class Constants {
     public static final String USER_EMAIL = UtilsMethod.getValue("USER_EMAIL");
     public static final String USER_PASSWORD = UtilsMethod.getValue("USER_PASSWORD");
     public static final String USER_PASSWORD_CONFIRMATION = UtilsMethod.getValue("USER_PASSWORD_CONFIRMATION");
-
 }
