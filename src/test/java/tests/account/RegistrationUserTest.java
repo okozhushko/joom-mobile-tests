@@ -6,6 +6,7 @@ import mobile.generator.FakeRandomGenerator;
 import mobile.helper.TestDescription;
 import mobile.screens.JoomHomeScreen;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import tests.BaseTest;
 import static mobile.utils.Constants.USER_EMAIL;
@@ -27,6 +28,7 @@ public class RegistrationUserTest extends BaseTest {
             .build();
 
     @Test
+    @Tag("acceptanceTest")
     @DisplayName("Open Login screen")
     @TestDescription("Close advertisement, enable notifications, confirmation")
 

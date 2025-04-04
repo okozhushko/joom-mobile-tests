@@ -1,0 +1,45 @@
+image: gradle:latest
+
+variables:
+  BROWSERSTACK_USERNAME: "$BROWSERSTACK_USERNAME"
+  BROWSERSTACK_ACCESS_KEY: "$BROWSERSTACK_ACCESS_KEY"
+
+stages:
+  - build
+  - test
+
+before_script:
+  - echo "!!!!!! Updating system and installing necessary packages !!!!!!"
+  - apt-get update && apt-get install -y wget zip unzip
+
+  - echo "!!!!!! Downloading and unzipping BrowserStackLocal !!!!!!"
+  - wget "https://www.browserstack.com/browserstack-local/BrowserStackLocal-linux-x64.zip"
+  - unzip BrowserStackLocal-linux-x64.zip
+
+  - echo "!!!!!! Starting BrowserStackLocal !!!!!!"
+  - ./BrowserStackLocal --key $BROWSERSTACK_ACCESS_KEY --daemon start
+
+  - echo "!!!!!! Making gradlew executable !!!!!!"
+  - chmod +x ./gradlew
+
+build:
+  stage: build
+  script:
+    - echo "!!!!!! Building the project !!!!!!"
+    - ./gradlew assemble
+  only:
+    - main
+
+test:
+  stage: test
+  script:
+    - echo "!!!!!! Running tests !!!!!!"
+    - ./gradlew test --info
+  after_script:
+    - echo "!!!!!! Stopping BrowserStackLocal !!!!!!"
+    - ./BrowserStackLocal --key $BROWSERSTACK_ACCESS_KEY --daemon stop
+  artifacts:
+    reports:
+      junit: build/test-results/test/**/*.xml
+  only:
+    - main
