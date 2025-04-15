@@ -40,6 +40,7 @@ public class RegistrationUserTest extends BaseTest {
                 .clickAllowButton()
                 .clickSpinTheWheel()
                 .backHomeButton()
+                .handleCookiesPopupIfAny()
                 .clickProfileButton()
                 .openRegistrationForm()
                 .signUpWithEmail()
