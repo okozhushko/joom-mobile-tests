@@ -5,6 +5,11 @@ plugins {
 group 'org.joom'
 version '1.0-SNAPSHOT'
 
+java {
+    sourceCompatibility = JavaVersion.VERSION_23
+    targetCompatibility = JavaVersion.VERSION_23
+}
+
 repositories {
     mavenCentral()
 }
