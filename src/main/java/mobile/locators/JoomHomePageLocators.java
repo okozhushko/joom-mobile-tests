@@ -9,5 +9,4 @@ public class JoomHomePageLocators {
     public static final String SPIN_WHEEL_BTN = "//android.widget.Button";
     public static final String BACK_HOME_SCREEN_BTN = "//android.widget.Button";
     public static final String ACCEPT_ALL_BTN = "//android.widget.TextView[@resource-id='com.joom:id/button_title' and @text='Accept all']";
-    //some changes
 }

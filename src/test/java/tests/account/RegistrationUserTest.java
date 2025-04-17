@@ -32,7 +32,7 @@ public class RegistrationUserTest extends BaseTest {
     @DisplayName("Open Login screen")
     @TestDescription("Close advertisement, enable notifications, confirmation")
 
-    public void testRegistrationUser(){
+    public void testRegistrationUser() {
         JoomHomeScreen joomHomeScreen = new JoomHomeScreen(driver);
         joomHomeScreen
                 .closeAdvertisement()
