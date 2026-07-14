@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "mobile-testing": {
+      "source": "proffesor-for-testing/agentic-qe",
+      "sourceType": "github",
+      "skillPath": ".claude/skills/mobile-testing/SKILL.md",
+      "computedHash": "eed2baff544c520efdeb3013704144efb520b169c9d9377a2f949624528ed7c6"
+    }
+  }
+}
