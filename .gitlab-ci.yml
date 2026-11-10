@@ -1,0 +1,53 @@
+image: eclipse-temurin:23-jdk
+
+variables:
+  GRADLE_USER_HOME: "$CI_PROJECT_DIR/.gradle"
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+
+default:
+  interruptible: true
+  cache:
+    key:
+      files:
+        - gradle/wrapper/gradle-wrapper.properties
+        - build.gradle
+    paths:
+      - .gradle/caches/
+      - .gradle/wrapper/
+
+stages:
+  - build
+  - test
+
+compile:
+  stage: build
+  timeout: 15m
+  script:
+    - ./gradlew --console=plain testClasses
+
+# Runs on BrowserStack; needs masked CI/CD variables BROWSERSTACK_USERNAME and BROWSERSTACK_ACCESS_KEY.
+# Automatic on the default branch, manual on merge requests to save device minutes.
+acceptance-tests:
+  stage: test
+  timeout: 45m
+  variables:
+    APPIUM_TARGET: browserstack
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      when: manual
+      allow_failure: true
+  script:
+    - ./gradlew --console=plain test
+  artifacts:
+    when: always
+    expire_in: 14 days
+    paths:
+      - build/reports/tests/test/
+    reports:
+      junit: build/test-results/test/*.xml

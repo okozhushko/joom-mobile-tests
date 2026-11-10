@@ -1,8 +1,10 @@
 package mobile.locators;
 
-public class LoginPageLocators {
+public final class LoginPageLocators {
+    public static final String PROFILE_HEADER = "//android.widget.Button[@resource-id='com.joom:id/profile_header_name']";
+    public static final String MORE_OPTIONS_BTN = "//android.widget.LinearLayout[@resource-id='com.joom:id/login']/android.widget.Button[3]";
+    public static final String EMAIL_BTN = "//android.widget.LinearLayout[@resource-id='com.joom:id/login']/android.widget.Button[4]";
 
-    public final static String LOGIN_ACCOUNT_BUTTON_XPATH = "//android.widget.Button[@resource-id='com.joom:id/profile_header_name']";
-    public final static String MORE_OPTIONS_BUTTON_XPATH = "//android.widget.LinearLayout[@resource-id='com.joom:id/login']/android.widget.Button[3]";
-    public final static String EMAIL_BUTTON_XPATH = "//android.widget.LinearLayout[@resource-id='com.joom:id/login']/android.widget.Button[4]";
+    private LoginPageLocators() {
+    }
 }
