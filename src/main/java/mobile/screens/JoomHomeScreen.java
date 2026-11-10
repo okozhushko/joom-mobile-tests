@@ -2,109 +2,109 @@ package mobile.screens;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.pagefactory.AndroidFindBy;
-import io.appium.java_client.pagefactory.AppiumFieldDecorator;
 import java.time.Duration;
-import java.util.NoSuchElementException;
-import org.openqa.selenium.TimeoutException;
-import lombok.Setter;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import mobile.locators.JoomHomePageLocators;
-import mobile.utils.WaitUtils;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.Sequence;
 
 @Slf4j
-@Setter
 public class JoomHomeScreen extends BaseScreen {
-    private WaitUtils waitUtils;
+    // How long to wait for promos and banners that appear on some launches only, before treating them as absent.
+    private static final Duration OPTIONAL_POPUP_TIMEOUT = Duration.ofSeconds(5);
 
-    public JoomHomeScreen(AppiumDriver driver) {
-        super(driver);
-        PageFactory.initElements(new AppiumFieldDecorator(driver), this);
-        this.waitUtils = new WaitUtils(driver);
-    }
-
-    public JoomHomeScreen closeAdvertisement() {
-        int xCoordinate = 989;
-        int yCoordinate = 186;
-
-        tapByCoordinate(xCoordinate, yCoordinate);
-        log.info("Advertisement closed");
-        return new JoomHomeScreen(driver);
-    }
+    // The launch ad's close button has no known locator yet, so it is tapped by coordinate after the ad renders.
+    // Both values are specific to the device the test was written on; replace with a locator from Appium Inspector.
+    private static final Duration AD_RENDER_DELAY = Duration.ofSeconds(4);
+    private static final int AD_CLOSE_X = 989;
+    private static final int AD_CLOSE_Y = 186;
 
     @AndroidFindBy(xpath = JoomHomePageLocators.ENABLE_NOTIFICATIONS_BTN)
     private WebElement enableNotificationsButton;
 
-    public JoomHomeScreen clickEnableButton() {
-        waitUtils.waitUntilClickable(enableNotificationsButton);
-        enableNotificationsButton.click();
-        log.info("Enable button: clicked");
-        return new JoomHomeScreen(driver);
-    }
-
     @AndroidFindBy(xpath = JoomHomePageLocators.ALLOW_NOTIFICATIONS_BTN)
     private WebElement allowNotificationsButton;
-
-    public JoomHomeScreen clickAllowButton() {
-        waitUtils.waitUntilClickable(allowNotificationsButton);
-        allowNotificationsButton.click();
-        log.info("Allow button: clicked");
-        return new JoomHomeScreen(driver);
-    }
 
     @AndroidFindBy(xpath = JoomHomePageLocators.SPIN_WHEEL_BTN)
     private WebElement spinWheelButton;
 
-    public JoomHomeScreen clickSpinTheWheel() {
-        try {
-            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-            wait.until(ExpectedConditions.elementToBeClickable(spinWheelButton));
-
-            if (spinWheelButton.isDisplayed()) {
-                spinWheelButton.click();
-                log.info("Spin button: clicked");
-            }
-        } catch (TimeoutException | NoSuchElementException e) {
-            log.info("Spin button not present, skipping");
-        }
-        return new JoomHomeScreen(driver);
-    }
-
     @AndroidFindBy(xpath = JoomHomePageLocators.BACK_HOME_SCREEN_BTN)
     private WebElement backHomeButton;
-
-    public JoomHomeScreen backHomeButton() {
-        waitUtils.waitUntilClickable(backHomeButton);
-        backHomeButton.click();
-        log.info("Back home button: clicked");
-        return new JoomHomeScreen(driver);
-    }
-
-    @AndroidFindBy(xpath = JoomHomePageLocators.PROFILE_BTN)
-    private WebElement profileButton;
-
-    public ProfileScreen clickProfileButton() {
-        waitUtils.waitUntilClickable(profileButton);
-        profileButton.click();
-        log.info("profile button: clicked");
-        return new ProfileScreen(driver);
-    }
 
     @AndroidFindBy(xpath = JoomHomePageLocators.ACCEPT_ALL_BTN)
     private WebElement acceptAllButton;
 
-    public JoomHomeScreen handleCookiesPopupIfAny() {
+    @AndroidFindBy(xpath = JoomHomePageLocators.PROFILE_BTN)
+    private WebElement profileButton;
+
+    public JoomHomeScreen(AppiumDriver driver) {
+        super(driver);
+    }
+
+    /** Gets a freshly launched app past the ad, notification prompts, spin-the-wheel promo and cookie banner. */
+    public JoomHomeScreen completeOnboarding() {
+        closeAdvertisement();
+        enableNotifications();
+        spinTheWheelIfShown();
+        clickBackHome();
+        acceptCookiesIfShown();
+        return this;
+    }
+
+    public ProfileScreen openProfile() {
+        waitUtils.waitUntilClickable(profileButton);
+        profileButton.click();
+        log.info("Profile opened");
+        return new ProfileScreen(driver);
+    }
+
+    private void closeAdvertisement() {
         try {
-            if (acceptAllButton.isDisplayed()) {
-                acceptAllButton.click();
-                log.info("Accepted cookies");
-            }
-        } catch (Exception e) {
-            log.debug("No cookies popup, moving on");
+            Thread.sleep(AD_RENDER_DELAY);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new IllegalStateException("Interrupted while waiting for the launch ad", e);
         }
-        return new JoomHomeScreen(driver);
+        PointerInput finger = new PointerInput(PointerInput.Kind.TOUCH, "finger");
+        Sequence tap = new Sequence(finger, 1)
+                .addAction(finger.createPointerMove(Duration.ZERO, PointerInput.Origin.viewport(), AD_CLOSE_X, AD_CLOSE_Y))
+                .addAction(finger.createPointerDown(PointerInput.MouseButton.LEFT.asArg()))
+                .addAction(finger.createPointerUp(PointerInput.MouseButton.LEFT.asArg()));
+        driver.perform(List.of(tap));
+        log.info("Advertisement closed");
+    }
+
+    private void enableNotifications() {
+        waitUtils.waitUntilClickable(enableNotificationsButton);
+        enableNotificationsButton.click();
+        waitUtils.waitUntilClickable(allowNotificationsButton);
+        allowNotificationsButton.click();
+        log.info("Notifications enabled");
+    }
+
+    private void spinTheWheelIfShown() {
+        if (waitUtils.isVisibleWithin(spinWheelButton, OPTIONAL_POPUP_TIMEOUT)) {
+            spinWheelButton.click();
+            log.info("Spin the wheel: clicked");
+        } else {
+            log.info("Spin the wheel not shown, skipping");
+        }
+    }
+
+    private void clickBackHome() {
+        waitUtils.waitUntilClickable(backHomeButton);
+        backHomeButton.click();
+        log.info("Back home: clicked");
+    }
+
+    private void acceptCookiesIfShown() {
+        if (waitUtils.isVisibleWithin(acceptAllButton, OPTIONAL_POPUP_TIMEOUT)) {
+            acceptAllButton.click();
+            log.info("Cookies accepted");
+        } else {
+            log.info("No cookies banner, skipping");
+        }
     }
 }
