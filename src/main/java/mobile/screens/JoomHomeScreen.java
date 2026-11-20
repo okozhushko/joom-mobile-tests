@@ -6,9 +6,14 @@ import java.time.Duration;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import mobile.locators.JoomHomePageLocators;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.PointerInput;
 import org.openqa.selenium.interactions.Sequence;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import static mobile.locators.JoomHomePageLocators.SELECT_PRODUCT_BTN;
 
 @Slf4j
 public class JoomHomeScreen extends BaseScreen {
@@ -27,8 +32,7 @@ public class JoomHomeScreen extends BaseScreen {
     @AndroidFindBy(xpath = JoomHomePageLocators.ALLOW_NOTIFICATIONS_BTN)
     private WebElement allowNotificationsButton;
 
-    @AndroidFindBy(xpath = JoomHomePageLocators.SPIN_WHEEL_BTN)
-    private WebElement spinWheelButton;
+    private static final By SELECT_PRODUCT_BTN = By.xpath(JoomHomePageLocators.SELECT_PRODUCT_BTN);
 
     @AndroidFindBy(xpath = JoomHomePageLocators.BACK_HOME_SCREEN_BTN)
     private WebElement backHomeButton;
@@ -47,8 +51,8 @@ public class JoomHomeScreen extends BaseScreen {
     public JoomHomeScreen completeOnboarding() {
         closeAdvertisement();
         enableNotifications();
-        spinTheWheelIfShown();
-        clickBackHome();
+        clickSelectProductBtn();
+       // clickBackHome();
         acceptCookiesIfShown();
         return this;
     }
@@ -84,12 +88,13 @@ public class JoomHomeScreen extends BaseScreen {
         log.info("Notifications enabled");
     }
 
-    private void spinTheWheelIfShown() {
-        if (waitUtils.isVisibleWithin(spinWheelButton, OPTIONAL_POPUP_TIMEOUT)) {
-            spinWheelButton.click();
-            log.info("Spin the wheel: clicked");
-        } else {
-            log.info("Spin the wheel not shown, skipping");
+    private void clickSelectProductBtn() {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, OPTIONAL_POPUP_TIMEOUT);
+            wait.until(ExpectedConditions.elementToBeClickable(SELECT_PRODUCT_BTN)).click();
+            log.info("Select products button: clicked");
+        } catch (TimeoutException e) {
+            log.info("Select products not shown, skipping");
         }
     }
 
